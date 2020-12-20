@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import UserList from "./UserList";
 import Spinner from "../layout/Spinner";
-import PropTypes from "prop-types";
 import GithubContext from "../../context/github/githubContext";
 
 const User = () => {
@@ -30,9 +29,4 @@ const userStyle = {
   gridTemplateColumns: "repeat(3,1fr)",
   gridGap: "1rem",
 };
-
-User.propTypes = {
-  users: PropTypes.array.isRequired,
-};
-
 export default User;

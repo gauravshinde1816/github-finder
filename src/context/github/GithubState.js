@@ -8,8 +8,6 @@ import {
   CLEAR_USERS,
   GET_REPOS,
   SET_LOADING,
-  SET_ALERT,
-  REMOVE_ALERT,
 } from "../types";
 
 const GithubState = (props) => {
@@ -19,6 +17,17 @@ const GithubState = (props) => {
     repos: [],
     loading: false,
   };
+
+  let githubclientID;
+  let gitclientSECRET;
+
+  if (process.env.NODE_ENV !== "production") {
+    githubclientID = process.env.REACT_APP_GITHUB_CLIENT_ID;
+    gitclientSECRET = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
+  } else {
+    githubclientID = process.env.GITHUB_CLIENT_ID;
+    gitclientSECRET = process.env.GITHUB_CLIENT_SECRET;
+  }
 
   //useReducer
   const [state, dispatch] = useReducer(GithubReducer, initialState);
@@ -30,14 +39,45 @@ const GithubState = (props) => {
 
     //fetch data
     const res = await axios.get(
-      `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+      `https://api.github.com/search/users?q=${text}&client_id=${githubclientID}&client_secret=${gitclientSECRET}`
     );
 
-    console.log(res.data.items);
     //dispatch to reducer app
     dispatch({
       type: SEARCH_USERS,
       payload: res.data.items,
+    });
+  };
+
+  //clear user
+
+  //clearUser
+  const ClearUser = () => dispatch({ type: CLEAR_USERS });
+
+  //get single github user
+
+  const getUser = async (username) => {
+    setLoading();
+    const res = await axios.get(
+      `https://api.github.com/users/${username}?client_id=${githubclientID}&client_secret=${gitclientSECRET}`
+    );
+
+    dispatch({
+      type: GET_USER,
+      payload: res.data,
+    });
+  };
+
+  //get user repos
+  const getUserRepos = async (username) => {
+    setLoading();
+    const res = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:src&client_id=${githubclientID}&client_secret=${gitclientSECRET}`
+    );
+
+    dispatch({
+      type: GET_REPOS,
+      payload: res.data,
     });
   };
 
@@ -53,6 +93,9 @@ const GithubState = (props) => {
         repos: state.repos,
         loading: state.loading,
         searchUser,
+        ClearUser,
+        getUserRepos,
+        getUser,
       }}
     >
       {props.children}

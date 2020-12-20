@@ -1,9 +1,12 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import Repos from "../repos/Repos";
+import GithubContext from "../../context/github/githubContext";
 
-const SingleUser = ({ user, match, repos, getUser, getUserRepos }) => {
+const SingleUser = ({ match }) => {
+  const githubContext = useContext(GithubContext);
+
+  const { getUserRepos, repos, getUser, user } = githubContext;
   useEffect(() => {
     getUser(match.params.login);
     getUserRepos(match.params.login);
@@ -85,13 +88,6 @@ const SingleUser = ({ user, match, repos, getUser, getUserRepos }) => {
       <Repos repos={repos} />
     </Fragment>
   );
-};
-
-SingleUser.propTypes = {
-  user: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
-  getUser: PropTypes.func.isRequired,
-  repos: PropTypes.array.isRequired,
 };
 
 export default SingleUser;

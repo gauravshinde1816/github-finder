@@ -1,8 +1,8 @@
-## Github Finder Application
+# Github Finder Application.
 
 <p> <strong>Github Finder Application</strong> which basically list down all the github account with the keyword written in search bar with  the help of github API search query. </p>
 
-# Tech Stack Used
+## Tech Stack Used.
 
 <ul>
     <li>ReactJS (Context API and Hooks)</li>
@@ -13,3 +13,7 @@
 </ul>
 
 ![alt text](github_finder.gif)
+
+### Hosted on netlify:
+
+<strong>https://githubfinder10001.netlify.app/</strong>

@@ -12,7 +12,11 @@
 
 </ul>
 
-![alt text](github_finder.mp4)
+![alt text](github_finder.gif)
+
+![alt text](github_finder.png)
+
+![alt text](github_finder_2.png)
 
 ### Hosted on netlify:
 
